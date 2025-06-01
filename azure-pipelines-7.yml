@@ -1,0 +1,23 @@
+trigger:
+- main
+
+pool:
+  name: MyLocalPool  # Name of your self-hosted agent pool
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'package'
+
+- script: |
+    echo "Simulating deployment..."
+    mkdir deployed
+    cp target/*.jar deployed/
+    echo "Deployment successful!"
+  displayName: 'Simulate Deployment'
+
+- script: |
+    echo "Contents of deployed folder:"
+    ls deployed
+  displayName: 'Verify Deployment Output'
